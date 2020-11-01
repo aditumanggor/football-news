@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // load page content
 let page = window.location.hash.substr(1);
 if (page === "") page = "home";
-loadPage();
+loadPage(page);
 
 function loadPage(page) {
   if (page === "home") loadTable();

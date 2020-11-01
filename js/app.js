@@ -14,7 +14,7 @@ const loadTable = () => {
         detail += `
                 <tr>
                     <td>${result.position}</td>
-                    <td><img class="responsive-img" width="24" height="24" src="${result.team.crestUrl}">${result.team.name}</td>
+                    <td><img class="responsive-img" width="24" height="20" src="${result.team.crestUrl}"> ${result.team.name}</td>
                     <td>${result.playedGames}</td>
                     <td>${result.won}</td>
                     <td>${result.draw}</td>
@@ -28,11 +28,11 @@ const loadTable = () => {
       });
       html +=
         `
-            <div class="col s12 m12">
+            
             <div class="card">
-            <div class="card-content">
+            <div class="card-content s12 m6">
             <h5 class="header">${standing.competition}</h5>
-            <table class="responsive-table striped">
+            <table class="stripped">
             <thead>
                 <tr>
                     <th>Position</th>
@@ -53,7 +53,7 @@ const loadTable = () => {
             </table>
             </div>
             </div>
-            </div>
+            
             `;
     });
     document.getElementById("header-title").innerHTML = "standings";
@@ -95,36 +95,45 @@ const loadTable = () => {
 const loadFixtures = () => {
   const matches = getMatches();
   matches.then((data) => {
+    matchData = data;
     const matchDays = groupBy(data.matches, "matchday");
     let fixtureHTML = "";
     for (const key in matchDays) {
       if (key !== "null") {
         fixtureHTML += `
-            <h5>MatchWeek ${key}</h5>
-            <div class="row">
+            <h5>Matchweek ${key} of 38</h5>
             `;
         matchDays[key].forEach((match) => {
           fixtureHTML += `
-                <div class='col s12 m6 l6'>
+                <div class='col s12'>
                     <div class="card">
                         <div class="card-content card-match">
-                            <div style="text-align: center"><h6>${dateToDMY(
-                              new Date(match.utcDate)
-                            )}</h6></div>
-                            <div class="col s10">${match.homeTeam.name}</div>
-                            <div class="col s2">${
-                              match.score.fullTime.homeTeam
-                            }</div>
-                            <div class="col s10">${match.awayTeam.name}</div>
-                            <div class="col s2">${
-                              match.score.fullTime.awayTeam
-                            }</div>
+                            <div style="text-align: center">
+                            <h6>${dateToDMY(new Date(match.utcDate))}</h6>
+                            </div>
+                            <div class="col s10">
+                            ${match.homeTeam.name}
+                            </div>
+                            <div class="col s2">                            
+                            ${match.score.fullTime.homeTeam}
+                            </div>
+                            <div class="col s10">
+                            ${match.awayTeam.name}
+                            </div>
+                            <div class="col s2">
+                            ${match.score.fullTime.awayTeam}
+                            </div>
                         </div>
+          
+                      <div class="card-action right-align">
+                        <a class="waves-effect waves-light btn-small" onclick="insertFixtureListener(${
+                          match.id
+                        })"><i class="material-icons left">star</i></a>
+                      </div>
                     </div>
                 </div>
                 `;
         });
-        fixtureHTML += `</div>`;
       }
     }
     document.getElementById("header-title").innerHTML = "Matches";
@@ -150,6 +159,11 @@ const loadFavFixtures = () => {
               <div class="col s10">${fixture.awayTeam.name}</div>
               <div class="col s2">${fixture.score.fullTime.awayTeam}</div>
           </div>
+          <div class="card-action right-align">
+              <a class="waves-effect waves-light btn-small red" onclick="deleteFixtureListener(${
+                fixture.id
+              })"><i class="material-icons left">delete</i>Delete</a>
+          </div>
         </div>
       </div>
 
@@ -163,6 +177,7 @@ const loadFavFixtures = () => {
   });
 };
 
+// if it works it works
 const groupBy = (xs, key) => {
   return xs.reduce((rv, x) => {
     (rv[x[key]] = rv[x[key]] || []).push(x);
@@ -186,7 +201,7 @@ const dbx = idb.open("epl", 1, (upgradeDB) => {
 const insertFixture = (fixture) => {
   dbx
     .then((db) => {
-      const trans = db.transaction("fixtures", "readWrite");
+      const trans = db.transaction("fixtures", "readwrite");
       const store = trans.objectStore("fixtures");
       fixture.creatAt = new Date().getTime();
       store.put(fixture);
