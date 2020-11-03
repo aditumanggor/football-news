@@ -31,7 +31,7 @@ const loadTable = () => {
             
             <div class="card">
             <div class="card-content s12 m6">
-            <h5 class="header">${standing.competition}</h5>
+            <h5 class="header">Primier League </h5>
             <table class="stripped">
             <thead>
                 <tr>
@@ -108,28 +108,19 @@ const loadFixtures = () => {
                 <div class='col s12'>
                     <div class="card">
                         <div class="card-content card-match">
-                            <div style="text-align: center">
-                            <h6>${dateToDMY(new Date(match.utcDate))}</h6>
-                            </div>
-                            <div class="col s10">
-                            ${match.homeTeam.name}
-                            </div>
-                            <div class="col s2">                            
-                            ${match.score.fullTime.homeTeam}
-                            </div>
-                            <div class="col s10">
-                            ${match.awayTeam.name}
-                            </div>
-                            <div class="col s2">
-                            ${match.score.fullTime.awayTeam}
-                            </div>
+                      <table>
+                      <tbody class="center-align">
+                        <tr>
+                        <td>${match.homeTeam.name}</td>
+                        <td>${match.score.fullTime.homeTeam}</td>
+                        <td>vs</td>
+                        <td>${match.score.fullTime.awayTeam}</td>
+                        <td>${match.awayTeam.name}</td>
+                        </tr>
+                      </tbody>
+                      </table>
+                       <a class="waves-effect waves-light btn-small" onclick="insertFixtureListener(${match.id})"><i class="material-icons left">add</i></a>
                         </div>
-          
-                      <div class="card-action right-align">
-                        <a class="waves-effect waves-light btn-small" onclick="insertFixtureListener(${
-                          match.id
-                        })"><i class="material-icons left">star</i></a>
-                      </div>
                     </div>
                 </div>
                 `;
@@ -148,16 +139,23 @@ const loadFavFixtures = () => {
     favfix += '<div class="row">';
     data.forEach((fixture) => {
       favfix += `
-      <div class="col s12 m6 l6">
+      <div class="col s12">
         <div class="card">
           <div class="card-content card-match">
             <div style="text-align: center"><h6>${dateToDMY(
               new Date(fixture.utcDate)
             )}</h6></div>
-              <div class="col s10">${fixture.homeTeam.name}</div>
-              <div class="col s2">${fixture.score.fullTime.homeTeam}</div>
-              <div class="col s10">${fixture.awayTeam.name}</div>
-              <div class="col s2">${fixture.score.fullTime.awayTeam}</div>
+              <table>
+                      <tbody class="center-align">
+                        <tr>
+                        <td>${fixture.homeTeam.name}</td>
+                        <td>${fixture.score.fullTime.homeTeam}</td>
+                        <td>vs</td>
+                        <td>${fixture.score.fullTime.awayTeam}</td>
+                        <td>${fixture.awayTeam.name}</td>
+                        </tr>
+                      </tbody>
+                      </table>
           </div>
           <div class="card-action right-align">
               <a class="waves-effect waves-light btn-small red" onclick="deleteFixtureListener(${

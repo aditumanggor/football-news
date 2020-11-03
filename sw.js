@@ -1,6 +1,22 @@
-const CACHE_NAME = "premierLeague";
+const CACHE_NAME = "premierLeague_v25";
 
-let urlToCahce = ["/", ""];
+let urlToCahce = [
+  "/",
+  "/pl.html",
+  "/nav.html",
+  "/css/materialize.min.css",
+  "/js/api.js",
+  "/js/app.js",
+  "/js/idb.js",
+  "js/materialize.min.js",
+  "/js/nav.js",
+  "/js/push.js",
+  "/js/sw-regis.js",
+  "/img/epl192.png",
+  "img/epl512.png",
+  "https://fonts.googleapis.com/icon?family=Material+Icons",
+  "https://fonts.googleapis.com/css2?family=Crimson+Text:ital@0;1&display=swap",
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

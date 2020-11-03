@@ -1,1 +1,22 @@
-{}
+{
+    "name":"English Premier League",
+    "short_name":"EPL",
+    "description":"English Premier League",
+    "start_url":"/",
+    "display":"standalone",
+    "background_color":"#00897B",
+    "theme_color":"#ad1457",
+    "icons": [
+        {
+            "src":"/img/epl512.png",
+            "sizes":"512X512",
+            "type":"image/png"
+        },
+        {
+            "src":"/img/epl192.png",
+            "sizes":"192X192",
+            "type":"image/png"
+        }
+    ],
+    "gcm_sender_id":"81294462959"
+}
