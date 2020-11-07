@@ -1,48 +1,49 @@
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js").then(
-    () => {
-      console.log("service worker is already installed");
-    },
-    (err) => {
-      console.error(`service worker gagal: ${err}`);
-    }
-  );
-  navigator.serviceWorker.ready.then(() => {
-    console.log("service worker is ready to use");
-  });
-  requestPer();
+if (!("serviceWorker" in navigator)) {
+  console.log("this is the worst tutorial");
 } else {
-  console.log("your browser doesn't support serviceworker");
+  registerServiceWorker();
+  requestPermission();
 }
 
-function requestPer() {
+//  service worker
+function registerServiceWorker() {
+  return navigator.serviceWorker
+    .register("sw.js")
+    .then(function (reg) {
+      console.log("you did it");
+      return reg;
+    })
+    .catch(function (err) {
+      console.error(`you failed looser, ${err}`);
+    });
+}
+function requestPermission() {
   if ("Notification" in window) {
-    Notification.requestPermission().then((result) => {
+    Notification.requestPermission().then(function (result) {
       if (result === "denied") {
-        console.log("fitur notifikasi tidak diijinkan");
+        console.log("you cant send notification midget");
         return;
       } else if (result === "default") {
-        console.error("pengguna menutuo kotak dialig permintaan ijin");
+        console.error("whatever");
         return;
       }
-      console.log("notifikasi di ijinkan");
 
       if ("PushManager" in window) {
-        navigator.serviceWorker.getRegistration().then((regis) => {
-          regis.pushManager
+        navigator.serviceWorker.getRegistration().then(function (registration) {
+          registration.pushManager
             .subscribe({
               userVisibleOnly: true,
-              applicationServerKey: urlBase64ToUnit8Array(
-                "BEGWb5rmY7JtsXbfd2s1TJlU7WU5yE0qJtiWyvHq3R5wYlX-9LGOLSygZjvoeuxt6YYXg7M38Xu0O8m4U6FLwVw"
+              applicationServerKey: urlBase64ToUint8Array(
+                "BGX1o6qFqgdEgdBiD1j2Qh4o75BNlgW0Pi3GzJSvwylfMPD90HrHmT8Q_jPkaRrj5LRewEJp-gE1EaQjM0YdQDs"
               ),
             })
-            .then((subscribe) => {
+            .then(function (subscribe) {
               console.log(
-                "berhasil melakukan subscribe dengan endpoint",
+                "berhasil melakukan subscibe dengan endpoint",
                 subscribe.endpoint
               );
               console.log(
-                "berhasil melakukan subscribe dengan p256dh key",
+                "berhasil melakukan subscibe dengan p256dh key:",
                 btoa(
                   String.fromCharCode.apply(
                     null,
@@ -51,7 +52,7 @@ function requestPer() {
                 )
               );
               console.log(
-                "berhasil melakukan subscribe degnan auth key: ",
+                "berhasil melakukan subcibe dengan auth key:",
                 btoa(
                   String.fromCharCode.apply(
                     null,
@@ -60,8 +61,8 @@ function requestPer() {
                 )
               );
             })
-            .catch((e) => {
-              console.error("tidak dapat melakukan subscribe ", e.message);
+            .catch(function (e) {
+              console.error("You suck boom roasted", e.message);
             });
         });
       }
@@ -69,8 +70,8 @@ function requestPer() {
   }
 }
 
-function urlBase64ToUnit8Array(base64String) {
-  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+function urlBase64ToUint8Array(base64String) {
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4); // if it works it works
   const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
   const rawData = window.atob(base64);
   const outputArray = new Uint8Array(rawData.length);

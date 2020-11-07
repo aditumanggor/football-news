@@ -2,6 +2,7 @@ let matchData;
 let teamData;
 
 const loadTable = () => {
+  showLoader();
   let standings = getStandings();
   standings.then((data) => {
     const str = JSON.stringify(data).replace(/http:/g, "https:");
@@ -14,7 +15,7 @@ const loadTable = () => {
         detail += `
                 <tr>
                     <td>${result.position}</td>
-                    <td><img class="responsive-img" width="24" height="20" src="${result.team.crestUrl}"> ${result.team.name}</td>
+                    <td><img class="responsive-img left-align" width="24" height="20" src="${result.team.crestUrl}"><span class="center-align"> ${result.team.name}</span></td>
                     <td>${result.playedGames}</td>
                     <td>${result.won}</td>
                     <td>${result.draw}</td>
@@ -29,10 +30,10 @@ const loadTable = () => {
       html +=
         `
             
-            <div class="card">
-            <div class="card-content s12 m6">
-            <h5 class="header">Primier League </h5>
-            <table class="stripped">
+            <div class="card premier-league">
+            <div class="card-content s12 m12 l12">
+            <h5 class="header">Premier League </h5>
+            <table class="stripped responsive-table highlight">
             <thead>
                 <tr>
                     <th>Position</th>
@@ -58,41 +59,12 @@ const loadTable = () => {
     });
     document.getElementById("header-title").innerHTML = "standings";
     document.getElementById("main-content").innerHTML = html;
+    hidePreloader();
   });
 };
 
-// const loadTeams = () => {
-//     const teams = getTeams()
-//     teams.then(data => {
-//         const str = JSON.stringify(data).replace(/http:/g, 'https:');
-//         data = JSON.parse(str);
-
-//         teamData = team
-//         let htmlTeam = ''
-//         htmlTeam +='<div class="row">'
-//         data.teams.forEach(team => {
-//              htmlTeam += `
-//         <div class="col s12 m6">
-//         <div class="card">
-//         <div class="card-content">
-//             <div class="center"><img width="64" height="64" src="${team.crestUrl}"></div>
-//             <div class="center flow-text">${team.name}</div>
-//             <div class="center">${team.area.name}</div>
-//             <div class="center"><a href="${team.website}" target="_blank">${team.website}</a></div>
-//         </div>
-//         <div class="card-action right-align">
-//             <a class="waves-effect waves-light btn-small pink-darken -3" onclick="insertTeamListener(${team.id})"><i class="material-icons left">star</i>Add to Favorite</a>
-//         </div>
-//         </div>
-//         </div>
-//         `;
-//         })
-//     })
-//     htmlTeam+='</div>'
-//     document.getElementById('header-title').innerHTML = "Teams";
-//     document.getElementById('main-content').innerHTML = htmlTeam;
-// }
 const loadFixtures = () => {
+  showLoader();
   const matches = getMatches();
   matches.then((data) => {
     matchData = data;
@@ -105,21 +77,21 @@ const loadFixtures = () => {
             `;
         matchDays[key].forEach((match) => {
           fixtureHTML += `
-                <div class='col s12'>
-                    <div class="card">
+                <div class='col s12 m6 l12'>
+                    <div class="card center-align">
                         <div class="card-content card-match">
                       <table>
                       <tbody class="center-align">
                         <tr>
-                        <td>${match.homeTeam.name}</td>
-                        <td>${match.score.fullTime.homeTeam}</td>
+                        <td class="center-align">${match.homeTeam.name}</td>
+                        <td class="center-align">${match.score.fullTime.homeTeam}</td>
                         <td>vs</td>
-                        <td>${match.score.fullTime.awayTeam}</td>
-                        <td>${match.awayTeam.name}</td>
+                        <td class="center-align">${match.score.fullTime.awayTeam}</td>
+                        <td class="center-align">${match.awayTeam.name}</td>
                         </tr>
                       </tbody>
                       </table>
-                       <a class="waves-effect waves-light btn-small" onclick="insertFixtureListener(${match.id})"><i class="material-icons left">add</i></a>
+                       <a class="waves-effect btn-floating halfway-fab indigo" onclick="insertFixtureListener(${match.id})"><i class="material-icons left">add</i></a>
                         </div>
                     </div>
                 </div>
@@ -129,38 +101,44 @@ const loadFixtures = () => {
     }
     document.getElementById("header-title").innerHTML = "Matches";
     document.getElementById("main-content").innerHTML = fixtureHTML;
+    hidePreloader();
   });
 };
 
 const loadFavFixtures = () => {
   let favFixture = getFavFixtures();
+  showLoader();
   favFixture.then((data) => {
     let favfix = "";
     favfix += '<div class="row">';
     data.forEach((fixture) => {
       favfix += `
-      <div class="col s12">
+      <div class="col s12 l12 m6">
         <div class="card">
           <div class="card-content card-match">
-            <div style="text-align: center"><h6>${dateToDMY(
+            <div class="center-align"><h6>${dateToDMY(
               new Date(fixture.utcDate)
             )}</h6></div>
               <table>
                       <tbody class="center-align">
                         <tr>
-                        <td>${fixture.homeTeam.name}</td>
-                        <td>${fixture.score.fullTime.homeTeam}</td>
-                        <td>vs</td>
-                        <td>${fixture.score.fullTime.awayTeam}</td>
-                        <td>${fixture.awayTeam.name}</td>
+                        <td class="center-align">${fixture.homeTeam.name}</td>
+                        <td class="center-align">${
+                          fixture.score.fullTime.homeTeam
+                        }</td>
+                        <td class="center-align">vs</td>
+                        <td class="center-align">${
+                          fixture.score.fullTime.awayTeam
+                        }</td>
+                        <td class="center-align">${fixture.awayTeam.name}</td>
                         </tr>
                       </tbody>
                       </table>
           </div>
           <div class="card-action right-align">
-              <a class="waves-effect waves-light btn-small red" onclick="deleteFixtureListener(${
+              <a class="waves-effect waves-light btn-floating halfway-fab red" onclick="deleteFixtureListener(${
                 fixture.id
-              })"><i class="material-icons left">delete</i>Delete</a>
+              })"><i class="material-icons left">delete</i></a>
           </div>
         </div>
       </div>
@@ -168,10 +146,11 @@ const loadFavFixtures = () => {
       `;
     });
     if (data.length === 0)
-      favfix += '<h6 class="center-align">No favorite match founde!</h6>';
+      favfix += '<h6 class="center-align">No favorite match founded!</h6>';
     favfix += "</div>";
     document.getElementById("header-title").innerHTML = "Favorite Match";
     document.getElementById("main-content").innerHTML = favfix;
+    hidePreloader();
   });
 };
 
@@ -251,4 +230,16 @@ const deleteFixtureListener = (fixtureID) => {
   if (con === true) {
     deleteFixture(fixtureID);
   }
+};
+
+const showLoader = () => {
+  const loader = `<div class="progress valign-wrapper">
+                      <div class="indeterminate"></div>
+                  </div>
+  `;
+  document.getElementById("loader").innerHTML = loader;
+};
+
+const hidePreloader = () => {
+  document.getElementById("loader").innerHTML = "";
 };

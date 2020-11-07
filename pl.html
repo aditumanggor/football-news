@@ -2,10 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Football News" />
-    <meta name="theme-color" content="#ad1457" />
     <link rel="manifest" href="manifest.json" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- for manifest -->
+    <meta name="description" content="English Premier League" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="EPL" />
+    <meta name="apple-mobile-web-app-title" content="EPL" />
+    <meta name="theme-color" content="#e040fb " />
+    <meta name="msapplication-navbutton-color" content="#e040fb " />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
     <link rel="icon" type="image/png" href="img/epl192.png" />
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -22,7 +32,7 @@
   </head>
   <body>
     <!-- navigation -->
-    <nav class="pink darken-3">
+    <nav class="purple accent-2">
       <div class="nav-wrapper container">
         <a href="#" class="brand-logo">Premier League</a>
         <a href="#" data-target="nav-mobile" class="sidenav-trigger">
@@ -36,12 +46,11 @@
       <h5 class="header" id="header-title"></h5>
       <div class="row">
         <div class="center-align" id="loader"></div>
-        <div class="col" id="main-content"></div>
+        <div id="main-content"></div>
       </div>
     </div>
     <script src="js/api.js"></script>
     <script src="js/sw-regis.js"></script>
-    <script src="js/push.js"></script>
     <script src="js/idb.js"></script>
     <script src="js/materialize.min.js"></script>
     <script src="js/app.js"></script>
