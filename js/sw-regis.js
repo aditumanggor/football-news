@@ -1,5 +1,5 @@
 if (!("serviceWorker" in navigator)) {
-  console.log("this is the worst tutorial");
+  console.log("your browser doesnt support service worker");
 } else {
   registerServiceWorker();
   requestPermission();

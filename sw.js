@@ -1,4 +1,4 @@
-const CACHE_NAME = "premierLeague_v80";
+const CACHE_NAME = "premierLeague_v82";
 
 let urlToCahce = [
   "/",
@@ -18,8 +18,6 @@ let urlToCahce = [
   "https://fonts.googleapis.com/css2?family=Crimson+Text:ital@0;1&display=swap",
   "https://fonts.googleapis.com/icon?family=Material+Icons",
   "https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2",
-  "https://api.football-data.org/v2/competitions/2021/matches",
-  "https://api.football-data.org/v2/competitions/2021/standings?standingType=TOTAL",
   "/manifest.json",
 ];
 
